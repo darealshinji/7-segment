@@ -1,0 +1,20 @@
+--- a/FL/Fl_Spinner.H
++++ b/FL/Fl_Spinner.H
+@@ -78,7 +78,7 @@
+ 		    // Up button pressed...
+ 		    v = sb->value_ + sb->step_;
+ 
+-		    if (v > sb->maximum_) sb->value_ = sb->minimum_;
++		    if (v > sb->maximum_) sb->value_ = sb->maximum_;
+ 		    else sb->value_ = v;
+ 
+ 		    sb->update();
+@@ -86,7 +86,7 @@
+ 		    // Down button pressed...
+ 		    v = sb->value_ - sb->step_;
+ 
+-		    if (v < sb->minimum_) sb->value_ = sb->maximum_;
++		    if (v < sb->minimum_) sb->value_ = sb->minimum_;
+ 		    else sb->value_ = v;
+ 
+ 		    sb->update();
