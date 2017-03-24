@@ -13,7 +13,7 @@ fltk_CXXFLAGS="$fltk_CFLAGS"
 fltk_LDFLAGS="-s -Wl,-z,relro -Wl,--as-needed -Wl,--gc-sections"
 fltk_CONFIG="--enable-localjpeg --enable-localpng --enable-localzlib --disable-gl --disable-xdbe --disable-xinerama --disable-xcursor --disable-xfixes --disable-xrender"
 
-test -d fltk-src || git clone --depth 1 -b fltk-1.3.4-1-source "https://github.com/darealshinji/fltk-dialog" fltk-src
+test -d fltk-src || git clone --depth 1 "https://github.com/darealshinji/fltk-1.3.4" fltk-src
 
 # patching FLTK/Fl_Spinner
 if [ "x$Fl_Spinner_Mod" = "xyes" ]; then
@@ -21,11 +21,6 @@ if [ "x$Fl_Spinner_Mod" = "xyes" ]; then
     (cd fltk-src && patch --backup -p1 < ../Fl_Spinner_Mod.patch)
   fi
   DFl_Spinner_Mod="-DFl_Spinner_Mod"
-fi
-
-# apply zlib patches
-if [ ! -f fltk-src/zlib/crc32.c.orig ]; then
-  patch -p1 --backup < CVE-2016-9840-9843.patch
 fi
 
 # build FLTK

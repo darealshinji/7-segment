@@ -1,20 +1,53 @@
 --- a/FL/Fl_Spinner.H
 +++ b/FL/Fl_Spinner.H
-@@ -78,7 +78,7 @@
+@@ -49,6 +49,7 @@ class FL_EXPORT Fl_Spinner : public Fl_Group {
+   double	maximum_;		// Maximum value
+   double	step_;			// Amount to add/subtract for up/down
+   const char	*format_;		// Format string
++  int		wrap_;			// Set non-zero to enable wrap
+ 
+ #if FLTK_ABI_VERSION >= 10301
+ // NEW
+@@ -78,7 +79,10 @@ private:
  		    // Up button pressed...
  		    v = sb->value_ + sb->step_;
  
 -		    if (v > sb->maximum_) sb->value_ = sb->minimum_;
-+		    if (v > sb->maximum_) sb->value_ = sb->maximum_;
++		    if (v > sb->maximum_) {
++		      if (sb->wrap_ == 0) sb->value_ = sb->minimum_;
++		      else sb->value_ = sb->maximum_;
++		    }
  		    else sb->value_ = v;
  
  		    sb->update();
-@@ -86,7 +86,7 @@
+@@ -86,7 +90,10 @@ private:
  		    // Down button pressed...
  		    v = sb->value_ - sb->step_;
  
 -		    if (v < sb->minimum_) sb->value_ = sb->maximum_;
-+		    if (v < sb->minimum_) sb->value_ = sb->minimum_;
++		    if (v < sb->minimum_) {
++		      if (sb->wrap_ == 0) sb->value_ = sb->maximum_;
++		      else sb->value_ = sb->minimum_;
++		    }
  		    else sb->value_ = v;
  
  		    sb->update();
+@@ -184,6 +191,8 @@ private:
+ 		  else input_.type(FL_INT_INPUT);
+ 		  update();
+ 		}
++  /** Dummy member **/
++  void		wrap(int n) const { (void)n; }
+   /** Gets the color of the text in the input field. */
+   Fl_Color	textcolor() const {
+ 		  return (input_.textcolor());
+--- a/src/Fl_Group.cxx
++++ b/src/Fl_Group.cxx
+@@ -862,6 +862,7 @@ Fl_Spinner::Fl_Spinner(int X, int Y, int W, int H, const char *L)
+   maximum_ = 100.0;
+   step_    = 1.0;
+   format_  = "%g";
++  wrap_    = 1;
+   
+   align(FL_ALIGN_LEFT);
+   

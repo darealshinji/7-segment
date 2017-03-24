@@ -262,6 +262,7 @@ int seven_segment()
       set_h->maximum(99);
       set_h->format("%02.0f");
       set_h->step(1);
+      set_h->wrap(0);
       set_h->value(time_init_h);
 
       set_m = new Fl_Spinner(26 + spinw, 36, spinw, spinh, "min.");
@@ -270,6 +271,7 @@ int seven_segment()
       set_m->maximum(59);
       set_m->format("%02.0f");
       set_m->step(1);
+      set_m->wrap(0);
       set_m->value(time_init_m);
 
       set_s = new Fl_Spinner(36 + spinw*2, 36, spinw, spinh, "sec.");
@@ -278,6 +280,7 @@ int seven_segment()
       set_s->maximum(59);
       set_s->format("%02.0f");
       set_s->step(1);
+      set_s->wrap(0);
       set_s->value(time_init_s);
       set_s->take_focus();
 
@@ -359,11 +362,14 @@ void print_help()
     << "  --help, -h     print help\n"
     << "  --timer        start in timer mode\n"
     << "  --stopwatch    start in stopwatch mode\n"
-    << "  --clock        start in clock mode\n"
+    << "  --clock        start in clock mode" << std::endl;
 #ifdef Fl_Spinner_Mod
-    << "  --patch        view the patches used on FLTK\n"
+  if (major == 1 && minor == 3)
+  {
+    std::cout << "  --patch        view the patches used on FLTK" << std::endl;
+  }
 #endif
-    << std::endl;
+  std::cout << std::endl;
 }
 
 int main(int argc, char *argv[])
