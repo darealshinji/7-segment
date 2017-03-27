@@ -4,7 +4,7 @@
    double	maximum_;		// Maximum value
    double	step_;			// Amount to add/subtract for up/down
    const char	*format_;		// Format string
-+  int		wrap_;			// Set non-zero to enable wrap
++  int		wrap_;			// Set 0 to disable wrap; activated by default for backwards compatibility
  
  #if FLTK_ABI_VERSION >= 10301
  // NEW
@@ -14,8 +14,8 @@
  
 -		    if (v > sb->maximum_) sb->value_ = sb->minimum_;
 +		    if (v > sb->maximum_) {
-+		      if (sb->wrap_ == 0) sb->value_ = sb->minimum_;
-+		      else sb->value_ = sb->maximum_;
++		      if (sb->wrap_ == 0) sb->value_ = sb->maximum_;
++		      else sb->value_ = sb->minimum_;
 +		    }
  		    else sb->value_ = v;
  
@@ -26,18 +26,19 @@
  
 -		    if (v < sb->minimum_) sb->value_ = sb->maximum_;
 +		    if (v < sb->minimum_) {
-+		      if (sb->wrap_ == 0) sb->value_ = sb->maximum_;
-+		      else sb->value_ = sb->minimum_;
++		      if (sb->wrap_ == 0) sb->value_ = sb->minimum_;
++		      else sb->value_ = sb->maximum_;
 +		    }
  		    else sb->value_ = v;
  
  		    sb->update();
-@@ -184,6 +191,8 @@ private:
+@@ -184,6 +191,9 @@ private:
  		  else input_.type(FL_INT_INPUT);
  		  update();
  		}
-+  /** Dummy member **/
-+  void		wrap(int n) const { (void)n; }
++  /** Wrap numbers **/
++  int		wrap() const { return (wrap_); }
++  void		wrap(int n) { wrap_ = n; }
    /** Gets the color of the text in the input field. */
    Fl_Color	textcolor() const {
  		  return (input_.textcolor());

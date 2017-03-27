@@ -262,7 +262,6 @@ int seven_segment()
       set_h->maximum(99);
       set_h->format("%02.0f");
       set_h->step(1);
-      set_h->wrap(0);
       set_h->value(time_init_h);
 
       set_m = new Fl_Spinner(26 + spinw, 36, spinw, spinh, "min.");
@@ -271,7 +270,6 @@ int seven_segment()
       set_m->maximum(59);
       set_m->format("%02.0f");
       set_m->step(1);
-      set_m->wrap(0);
       set_m->value(time_init_m);
 
       set_s = new Fl_Spinner(36 + spinw*2, 36, spinw, spinh, "sec.");
@@ -280,9 +278,14 @@ int seven_segment()
       set_s->maximum(59);
       set_s->format("%02.0f");
       set_s->step(1);
-      set_s->wrap(0);
       set_s->value(time_init_s);
       set_s->take_focus();
+
+#if defined(Fl_Spinner_Mod) || (FL_MAJOR_VERSION == 1 && FL_MINOR_VERSION > 3)
+      set_h->wrap(0);
+      set_m->wrap(0);
+      set_s->wrap(0);
+#endif
 
       Fl_Button *b = new Fl_Return_Button(54 + spinw*3, 36, spinw + 10, spinh, "Set");
       b->callback((Fl_Callback *)set_init_cb);
