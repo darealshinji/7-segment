@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 TOP="$PWD"
 JOBS=`nproc`
 Fl_Spinner_Mod="yes"
-DFl_Spinner_Mod="-UFl_Spinner_Mod"
+DFl_Spinner_Mod="-UFL_SPINNER_MOD"
 fltk_CFLAGS="-Wall -O2 -fstack-protector --param=ssp-buffer-size=4 -ffunction-sections -fdata-sections -D_FORTIFY_SOURCE=2"
 fltk_CXXFLAGS="$fltk_CFLAGS"
 fltk_LDFLAGS="-s -Wl,-z,relro -Wl,--as-needed -Wl,--gc-sections"
@@ -20,7 +20,7 @@ if [ "x$Fl_Spinner_Mod" = "xyes" ]; then
   if [ ! -f fltk-src/FL/Fl_Spinner.H.orig ]; then
     (cd fltk-src && patch --backup -p1 < ../Fl_Spinner_Mod.patch)
   fi
-  DFl_Spinner_Mod="-DFl_Spinner_Mod"
+  DFl_Spinner_Mod="-DFL_SPINNER_MOD"
 fi
 
 # build FLTK
@@ -33,11 +33,12 @@ if [ ! -x fltk/bin/fltk-config ]; then
   rm -f fltk-src/.clean_stamp
 fi
 
-test -f ressources.hpp || ./gen_ressources_hpp.sh
+xxd -i DSEG7-Classic-Bold-modified.ttf > ressources.h
+xxd -i icon.png >> ressources.h
 
 set +x
 
-"$TOP/fltk/bin/fltk-config" --use-images --compile main.cpp | sed "s|-O2|-O3 $DFl_Spinner_Mod|g" > stage2
+"$TOP/fltk/bin/fltk-config" --use-images --compile main.cpp | sed "s|-O2|-O3 -DFLTK_STATIC $DFl_Spinner_Mod|g" > stage2
 cat stage2 && eval `cat stage2` && rm stage2
 
 set -x

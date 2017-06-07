@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" width="72px" height="320px" viewBox="-1 -1 4.5 20">
-<g id="dots" transform="translate(-1.25,0)"
-   style="fill:#FF0000; fill-rule:evenodd; stroke:#000000; stroke-width:0.25; stroke-opacity:1; stroke-linecap:butt; stroke-linejoin:miter;">
-  <circle id="circle1" cx="2.5" cy="5.5"  r="1.5"/>
-  <circle id="circle2" cx="2.5" cy="12.5" r="1.5"/>
-</g>
-</svg>

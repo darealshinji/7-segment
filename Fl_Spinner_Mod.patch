@@ -42,6 +42,23 @@
    /** Gets the color of the text in the input field. */
    Fl_Color	textcolor() const {
  		  return (input_.textcolor());
+@@ -250,6 +260,16 @@ private:
+     Return the selection color of the spinner widget's input field.
+   */
+   Fl_Color	selection_color() const { return input_.selection_color(); }
++
++  /**
++    Sets the maximum length of the input field in characters.
++  */
++  void	maximum_size(int m) { if (m > 0) input_.maximum_size(m); }
++
++  /**
++    Gets the maximum length of the input field in characters.
++  */
++  int	maximum_size() const { return input_.maximum_size(); }
+ };
+ 
+ #endif // !Fl_Spinner_H
 --- a/src/Fl_Group.cxx
 +++ b/src/Fl_Group.cxx
 @@ -862,6 +862,7 @@ Fl_Spinner::Fl_Spinner(int X, int Y, int W, int H, const char *L)

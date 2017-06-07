@@ -17,5 +17,5 @@ distclean: clean
 
 maintainer-clean:
 	-rm -rf $(CLEANFILES) $(DISTCLEANFILES)
-	-rm -rf fltk-src ressources.hpp
+	-rm -rf fltk-src ressources.h
 
