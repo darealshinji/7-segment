@@ -23,12 +23,13 @@
  */
 
 #include <FL/Fl.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Double_Window.H>
-#include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Spinner.H>
 #include <FL/Fl_Widget.H>
+#include <FL/Fl_XPM_Image.H>
 #include <FL/fl_draw.H>
 
 #include <fontconfig/fontconfig.h>
@@ -45,6 +46,7 @@
 #include <unistd.h>
 
 #include "ressources.h"
+#include "icon.xpm"
 
 #define FONT_NAME  "B" /*(Bold)*/ "DSEG7 Classic"
 #define FONT_FILE  DSEG7_Classic_Bold_modified_ttf
@@ -98,6 +100,16 @@ public:
   }
 };
 
+class SimpleButton : public Fl_Box {
+public:
+  SimpleButton(int X, int Y, int W, int H, const char *L=0) :
+    Fl_Box(X, Y, W, H, L) { }
+
+  virtual ~SimpleButton() { }
+
+  int handle(int event);
+};
+
 FontDisplay *timebox1, *timebox2;
 
 void FontDisplay::draw()
@@ -106,6 +118,20 @@ void FontDisplay::draw()
   fl_font((Fl_Font)font, size);
   fl_color(color);
   fl_draw(label(), x()+3, y()+3, w()-6, h()-6, align());
+}
+
+int SimpleButton::handle(int event)
+{
+  switch (event)
+  {
+    /* start the callback when the mouse button
+     * was hit, not when it was released */
+    case FL_PUSH:
+      do_callback();
+      return 1;
+    default:
+      return 0;
+  }
 }
 
 std::string random_string(size_t length)
@@ -216,7 +242,7 @@ static void timer_cb(void*)
 
 int set_timer()
 {
-  Fl_PNG_Image win_icon(NULL, icon_png, (int)icon_png_len);
+  Fl_RGB_Image win_icon(new Fl_Pixmap(icon_xpm));
   Fl_Window::default_icon(&win_icon);
 
   Fl::scheme("gtk+");
@@ -289,7 +315,7 @@ int timer()
   Fl::set_font(FL_FREE_FONT, FONT_NAME);
   Fl::background(0, 0, 0);
 
-  Fl_PNG_Image win_icon(NULL, icon_png, (int)icon_png_len);
+  Fl_RGB_Image win_icon(new Fl_Pixmap(icon_xpm));
   Fl_Window::default_icon(&win_icon);
 
   win = new Fl_Double_Window(win_w, win_h, title);
@@ -324,7 +350,7 @@ int timer()
 
     if (mode != MODE_CLOCK)
     {
-      { Fl_Button *o = new Fl_Button(0, 0, win_w, win_h);
+      { SimpleButton *o = new SimpleButton(0, 0, win_w, win_h);
         o->box(FL_NO_BOX);
         o->clear_visible_focus();
         o->callback(button_cb); }
