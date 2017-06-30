@@ -1,5 +1,5 @@
 CLEANFILES = simple_stopwatch simple_timer simple_clock main stage2
-DISTCLEANFILES = fltk
+DISTCLEANFILES = fltk ressources.h
 
 
 all:
@@ -17,5 +17,5 @@ distclean: clean
 
 maintainer-clean:
 	-rm -rf $(CLEANFILES) $(DISTCLEANFILES)
-	-rm -rf fltk-src ressources.h
+	-rm -rf fltk-src
 

@@ -35,14 +35,9 @@ fi
 
 xxd -i DSEG7-Classic-Bold-modified.ttf > ressources.h
 
-set +x
+g++ -s -o simple_timer main.cpp `"$TOP/fltk/bin/fltk-config" --cflags` -O3 -DFLTK_STATIC $DFl_Spinner_Mod \
+  `"$TOP/fltk/bin/fltk-config" --ldflags` -luuid
 
-"$TOP/fltk/bin/fltk-config" --compile main.cpp | sed "s|-O2|-O3 -DFLTK_STATIC $DFl_Spinner_Mod|g" > stage2
-cat stage2 && eval `cat stage2` && rm stage2
-
-set -x
-
-mv -f main simple_timer
 ln -sf simple_timer simple_stopwatch
 ln -sf simple_timer simple_clock
 

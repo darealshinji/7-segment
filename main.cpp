@@ -36,7 +36,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string>
 
 #include <stdio.h>
@@ -44,6 +43,7 @@
 #include <sys/timeb.h>
 #include <time.h>
 #include <unistd.h>
+#include <uuid/uuid.h>
 
 #include "ressources.h"
 #include "icon.xpm"
@@ -132,23 +132,6 @@ int SimpleButton::handle(int event)
     default:
       return 0;
   }
-}
-
-std::string random_string(size_t length)
-{
-  struct timespec ts;
-  char ch;
-  std::stringstream ss;
-  const char charset[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  const size_t max_index = (sizeof(charset) - 1);
-
-  for (size_t i = 0; i < length; ++i)
-  {
-    timespec_get(&ts, TIME_UTC);
-    ch = charset[ts.tv_nsec % max_index];
-    ss << ch;
-  }
-  return ss.str();
 }
 
 void set_init()
@@ -302,7 +285,12 @@ int set_timer()
 
 int timer()
 {
-  std::string ttf = "/tmp/." + random_string(10) + ".ttf";
+  char uuidBuff[36];
+  uuid_t uuidGen;
+  uuid_generate_random(uuidGen);
+  uuid_unparse(uuidGen, uuidBuff);
+
+  std::string ttf = "/tmp/." + std::string(uuidBuff) + ".ttf";
   std::ofstream out(ttf.c_str(), std::ios::out|std::ios::binary);
 
   if (out)
