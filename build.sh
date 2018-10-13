@@ -35,8 +35,8 @@ fi
 
 xxd -i DSEG7-Classic-Bold-modified.ttf > ressources.h
 
-g++ -s -o simple_timer main.cpp `"$TOP/fltk/bin/fltk-config" --cflags` -O3 -DFLTK_STATIC $DFl_Spinner_Mod \
-  `"$TOP/fltk/bin/fltk-config" --ldflags` -luuid
+g++ -s -o simple_timer main.cpp `"$TOP/fltk/bin/fltk-config" --cflags` -Wall -O3 -DFLTK_STATIC $DFl_Spinner_Mod \
+  `"$TOP/fltk/bin/fltk-config" --ldflags`
 
 ln -sf simple_timer simple_stopwatch
 ln -sf simple_timer simple_clock
